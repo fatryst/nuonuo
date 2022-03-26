@@ -4,23 +4,22 @@ namespace Fatryst\NuoNuo;
 
 use Fatryst\NuoNuo\Exception\NuoNuoException;
 use GuzzleHttp\Client;
-use Illuminate\Log\Logger;
 use Log;
 
 class NuoNuo
 {
     const API_URL = [
         '2.0' => [
-            'auth_url' => 'https://open.nuonuo.com/accessToken',
-            'invoice_url' => 'https://sdk.nuonuo.com/open/v1/servies',
+            'auth_url'            => 'https://open.nuonuo.com/accessToken',
+            'invoice_url'         => 'https://sdk.nuonuo.com/open/v1/servies',
             'sandbox_invoice_url' => 'https://sandbox.nuonuocs.cn/open/v1/services',
-        ]
+        ],
     ];
     const API_NAME = [
         '2.0' => [
-            'invoice' => 'nuonuo.electronInvoice.RequestBillingNew',
-            'query_invoice_result' => 'nuonuo.ElectronInvoice.QueryInvoiceResult'
-        ]
+            'invoice'              => 'nuonuo.electronInvoice.RequestBillingNew',
+            'query_invoice_result' => 'nuonuo.ElectronInvoice.QueryInvoiceResult',
+        ],
     ];
     /**
      * @var string
@@ -62,7 +61,7 @@ class NuoNuo
     /**
      * @throws NuoNuoException
      */
-    function __construct($config = null)
+    public function __construct($config = null)
     {
         $this->client = new Client(['timeout' => 5]);
         $this->parseConfig($config);
@@ -126,16 +125,16 @@ class NuoNuo
         $this->setUrl();
         $headers = [
             'Content-type' => 'application/x-www-form-urlencoded;charset=UTF-8',
-            "Accept" => "application/json"
+            'Accept'       => 'application/json',
         ];
-        $params = array(
-            "client_id" => $this->appKey,
-            "client_secret" => $this->appSecret,
-            "grant_type" => "client_credentials"
-        );
+        $params = [
+            'client_id'     => $this->appKey,
+            'client_secret' => $this->appSecret,
+            'grant_type'    => 'client_credentials',
+        ];
         $res = $this->client->post($this->auth_url, [
             'form_params' => $params,
-            'headers' => $headers
+            'headers'     => $headers,
         ]);
         $data = $this->parseResponse($res);
         if ($data['access_token']) {
@@ -161,7 +160,7 @@ class NuoNuo
         $pieces = explode('/', $path);
         $signStr = "a={$pieces[3]}&l={$pieces[2]}&p={$pieces[1]}&k={$this->appKey}&i={$senid}&n={$nonce}&t={$timestamp}&f={$body}";
 
-        return base64_encode(hash_hmac("sha1", $signStr, $this->appSecret, true));
+        return base64_encode(hash_hmac('sha1', $signStr, $this->appSecret, true));
     }
 
     /**
@@ -169,26 +168,26 @@ class NuoNuo
      */
     private function query($content, $method)
     {
-        $senid = strtoupper(str_replace("-", '', \Ramsey\Uuid\Uuid::uuid1()->toString()));
+        $senid = strtoupper(str_replace('-', '', \Ramsey\Uuid\Uuid::uuid1()->toString()));
         $nonce = rand(10000000, 99999999);
         $timestamp = time();
         $urlInfo = parse_url($this->invoice_query_url);
-        if ($urlInfo === FALSE) {
-            throw new NuoNuoException("url解析失败");
+        if ($urlInfo === false) {
+            throw new NuoNuoException('url解析失败');
         }
-        $sign = $this->makeSign($urlInfo["path"], $senid, $nonce, json_encode($content), $timestamp);
+        $sign = $this->makeSign($urlInfo['path'], $senid, $nonce, json_encode($content), $timestamp);
         $headers = [
-            "Content-Type" => "application/json",
-            "X-Nuonuo-Sign" => $sign,
-            "accessToken" => $this->access_token,
-            "userTax" => $this->taxNum,
-            "method" => $method
+            'Content-Type'  => 'application/json',
+            'X-Nuonuo-Sign' => $sign,
+            'accessToken'   => $this->access_token,
+            'userTax'       => $this->taxNum,
+            'method'        => $method,
         ];
         $query_url = "$this->invoice_query_url?senid=$senid&nonce=$nonce&timestamp=$timestamp&appkey=$this->appKey";
         Log::info('开票信息：', $content);
         $res = $this->client->post($query_url, [
             'headers' => $headers,
-            'json' => $content,
+            'json'    => $content,
         ]);
 
         return $this->parseResponse($res);
@@ -220,42 +219,43 @@ class NuoNuo
         $buyerAddress = '',
         $buyerAccount = '',
         $salerAccount = ''
-    )
-    {
+    ) {
         $content = [
             'order' => [
-                'buyerName' => $buyerName,
-                'buyerTaxNum' => $buyerTaxNum,
-                'buyerTel' => $buyerTel,
-                'buyerAddress' => $buyerAddress,
-                'buyerAccount' => $buyerAccount,
-                'salerTaxNum' => $this->taxNum,
-                'salerTel' => $salerTel,
-                'salerAddress' => $salerAddress,
-                'salerAccount' => $salerAccount,
-                'orderNo' => $orderNo,
-                'invoiceDate' => $invoiceDate,
-                'clerk' => $clerk,
-                'buyerPhone' => $buyerPhone,
-                'email' => $email,
-                'invoiceType' => $invoiceType,
+                'buyerName'     => $buyerName,
+                'buyerTaxNum'   => $buyerTaxNum,
+                'buyerTel'      => $buyerTel,
+                'buyerAddress'  => $buyerAddress,
+                'buyerAccount'  => $buyerAccount,
+                'salerTaxNum'   => $this->taxNum,
+                'salerTel'      => $salerTel,
+                'salerAddress'  => $salerAddress,
+                'salerAccount'  => $salerAccount,
+                'orderNo'       => $orderNo,
+                'invoiceDate'   => $invoiceDate,
+                'clerk'         => $clerk,
+                'buyerPhone'    => $buyerPhone,
+                'email'         => $email,
+                'invoiceType'   => $invoiceType,
                 'invoiceDetail' => [
-                    'goodsName' => $goodsName,
+                    'goodsName'   => $goodsName,
                     'withTaxFlag' => $withTaxFlag,
-                    'price' => $price,
-                    'num' => $num,
-                    'unit' => $unit,
-                    'tax' => $tax,
-                    'taxRate' => $taxRate
-                ]
-            ]
+                    'price'       => $price,
+                    'num'         => $num,
+                    'unit'        => $unit,
+                    'tax'         => $tax,
+                    'taxRate'     => $taxRate,
+                ],
+            ],
         ];
+
         return $this->query($content, self::API_NAME[$this->version]['invoice']);
     }
 
     public function queryInvoiceResult($orderNo)
     {
         $content = ['orderNos' => $orderNo];
+
         return $this->query($content, self::API_NAME[$this->version]['query_invoice_result']);
     }
 }
