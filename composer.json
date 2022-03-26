@@ -1,0 +1,46 @@
+{
+    "name": "fatryst/nuonuo",
+    "description": "诺诺开放平台开发票SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "fa",
+            "email": "fatryst@gmail.com",
+            "homepage": "fafa.im"
+        }
+    ],
+    "homepage": "https://github.com/fatryst/nuonuo",
+    "keywords": [
+        "诺诺",
+        "NuoNuo",
+        "发票",
+        "invoice"
+    ],
+    "require": {
+        "illuminate/support": "~9",
+        "guzzlehttp/guzzle": "^6.0 | ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fatryst\\NuoNuo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fatryst\\NuoNuo\\NuoNuoServiceProvider"
+            ],
+            "aliases": {
+                "NuoNuo": "Fatryst\\NuoNuo\\Facades\\NuoNuo"
+            }
+        }
+    }
+}
