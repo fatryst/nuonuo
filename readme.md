@@ -51,11 +51,11 @@ MIT. Please see the [license file](license.md) for more information.
 [ico-version]: https://img.shields.io/packagist/v/fatryst/nuonuo.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/fatryst/nuonuo.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/fatryst/nuonuo/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-styleci]: https://styleci.io/repos/474217486/shield
 
 [link-packagist]: https://packagist.org/packages/fatryst/nuonuo
 [link-downloads]: https://packagist.org/packages/fatryst/nuonuo
 [link-travis]: https://travis-ci.org/fatryst/nuonuo
-[link-styleci]: https://styleci.io/repos/12345678
+[link-styleci]: https://styleci.io/repos/474217486
 [link-author]: https://github.com/fatryst
 [link-contributors]: ../../contributors
