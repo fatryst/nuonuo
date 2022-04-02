@@ -139,7 +139,7 @@ class NuoNuo
     {
         $headers = [
             'Content-type' => 'application/x-www-form-urlencoded;charset=UTF-8',
-            'Accept' => 'application/json',
+            'Accept'       => 'application/json',
         ];
         $params = [
             'client_id'     => $this->appKey,
@@ -234,33 +234,33 @@ class NuoNuo
         $buyerAddress = '',
         $buyerAccount = '',
         $salerAccount = '',
-        $pushMode = '1'  
+        $pushMode = '1'
     ) {
         $content = [
             'order' => [
                 'buyerName'     => $buyerName,
                 'buyerTaxNum'   => $buyerTaxNum,
-                'buyerTel' => $buyerTel,
-                'buyerAddress' => $buyerAddress,
-                'buyerAccount' => $buyerAccount,
-                'salerTaxNum' => $this->taxNum,
-                'salerTel' => $salerTel,
-                'salerAddress' => $salerAddress,
-                'salerAccount' => $salerAccount,
-                'orderNo' => $orderNo,
-                'invoiceDate' => $invoiceDate,
-                'clerk' => $clerk,
-                'pushMode' => $pushMode,
-                'buyerPhone' => $buyerPhone,
-                'email' => $email,
-                'invoiceType' => $invoiceType,
+                'buyerTel'      => $buyerTel,
+                'buyerAddress'  => $buyerAddress,
+                'buyerAccount'  => $buyerAccount,
+                'salerTaxNum'   => $this->taxNum,
+                'salerTel'      => $salerTel,
+                'salerAddress'  => $salerAddress,
+                'salerAccount'  => $salerAccount,
+                'orderNo'       => $orderNo,
+                'invoiceDate'   => $invoiceDate,
+                'clerk'         => $clerk,
+                'pushMode'      => $pushMode,
+                'buyerPhone'    => $buyerPhone,
+                'email'         => $email,
+                'invoiceType'   => $invoiceType,
                 'invoiceDetail' => [
-                    'goodsName' => $goodsName,
+                    'goodsName'   => $goodsName,
                     'withTaxFlag' => $withTaxFlag,
-                    'price' => $price,
-                    'num' => $num,
-                    'unit' => $unit,
-                    'tax' => $tax,
+                    'price'       => $price,
+                    'num'         => $num,
+                    'unit'        => $unit,
+                    'tax'         => $tax,
                     'taxRate'     => $taxRate,
                 ],
             ],
