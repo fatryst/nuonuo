@@ -233,7 +233,8 @@ class NuoNuo
         $buyerTel = '',
         $buyerAddress = '',
         $buyerAccount = '',
-        $salerAccount = ''
+        $salerAccount = '',
+        $pushMode = '1'  
     ) {
         $content = [
             'order' => [
@@ -249,7 +250,7 @@ class NuoNuo
                 'orderNo' => $orderNo,
                 'invoiceDate' => $invoiceDate,
                 'clerk' => $clerk,
-                'pushMode' => '0',
+                'pushMode' => $pushMode,
                 'buyerPhone' => $buyerPhone,
                 'email' => $email,
                 'invoiceType' => $invoiceType,
