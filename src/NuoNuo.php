@@ -2,6 +2,7 @@
 
 namespace Fatryst\NuoNuo;
 
+use Cache;
 use Fatryst\NuoNuo\Exception\NuoNuoException;
 use GuzzleHttp\Client;
 use Log;
@@ -65,7 +66,7 @@ class NuoNuo
     {
         $this->client = new Client(['timeout' => 5]);
         $this->parseConfig($config);
-        $this->setAccessToken();
+        $this->getAccessToken();
     }
 
     /**
@@ -104,6 +105,7 @@ class NuoNuo
         } else {
             $this->taxNum = null;
         }
+        $this->setUrl();
     }
 
     private function setUrl()
@@ -120,12 +122,24 @@ class NuoNuo
     /**
      * @throws NuoNuoException
      */
+    private function getAccessToken()
+    {
+        $access_token = Cache::get('nuonuo_access_token');
+        if ($access_token) {
+            $this->access_token = $access_token;
+        } else {
+            $this->setAccessToken();
+        }
+    }
+
+    /**
+     * @throws NuoNuoException
+     */
     private function setAccessToken()
     {
-        $this->setUrl();
         $headers = [
             'Content-type' => 'application/x-www-form-urlencoded;charset=UTF-8',
-            'Accept'       => 'application/json',
+            'Accept' => 'application/json',
         ];
         $params = [
             'client_id'     => $this->appKey,
@@ -138,6 +152,7 @@ class NuoNuo
         ]);
         $data = $this->parseResponse($res);
         if ($data['access_token']) {
+            Cache::set('nuonuo_access_token', $data['access_token'], 86400);
             $this->access_token = $data['access_token'];
         }
     }
@@ -234,7 +249,7 @@ class NuoNuo
                 'orderNo' => $orderNo,
                 'invoiceDate' => $invoiceDate,
                 'clerk' => $clerk,
-                'pushMode' => '2',
+                'pushMode' => '0',
                 'buyerPhone' => $buyerPhone,
                 'email' => $email,
                 'invoiceType' => $invoiceType,
