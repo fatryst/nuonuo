@@ -20,6 +20,7 @@ class NuoNuo
         '2.0' => [
             'invoice'              => 'nuonuo.electronInvoice.RequestBillingNew',
             'query_invoice_result' => 'nuonuo.ElectronInvoice.QueryInvoiceResult',
+            'invoice_retry'        => 'nuonuo.ElectronInvoice.reInvoice',
         ],
     ];
     /**
@@ -274,5 +275,13 @@ class NuoNuo
         $content = ['orderNos' => $orderNo];
 
         return $this->query($content, self::API_NAME[$this->version]['query_invoice_result']);
+    }
+
+    public function invoiceRetry($orderNo)
+    {
+        $content = [
+            'orderNo' => $orderNo,
+        ];
+        return $this->query($content, self::API_NAME[$this->version]['invoice_retry']);
     }
 }
